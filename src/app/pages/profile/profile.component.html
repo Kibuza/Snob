@@ -1,0 +1,50 @@
+<div class="container mx-auto px-4 py-8 flex items-center justify-center">
+  <div
+    class="w-full bg-white shadow-md rounded-lg overflow-hidden grid grid-cols-12"
+  >
+    <div class="p-8 col-span-4">
+      <!-- Avatar -->
+      <div class="flex items-center justify-center mb-6">
+        <img
+          class="h-52 w-52 rounded-full"
+          [src]="'http://localhost:3000/uploads/' + user.avatar"
+          alt="Avatar"
+        />
+      </div>
+      <app-upload-files></app-upload-files>
+    </div>
+    <div class="p-8 col-span-8">
+      <!-- Nombre de usuario -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2" for="username"
+          >Nombre:</label
+        >
+        <p class="text-gray-900">{{ user.username }}</p>
+      </div>
+      <!-- Correo electrónico -->
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2" for="email"
+          >Email:</label
+        >
+        <p class="text-gray-900">{{ user.email }}</p>
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2" for="email"
+          >Seguidos:</label
+        >
+        <div class="flex flex-row flex-wrap">
+          @for (usuario of seguidos; track $index) {
+          <div class="flex flex-col items-center mx-4 mb-4">
+            <img
+              src="http://localhost:3000/uploads/{{ usuario.avatar }}"
+              alt=""
+              class="h-20 w-20 rounded-full mb-2"
+            />
+            <p class="text-gray-900">{{ usuario.username }}</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

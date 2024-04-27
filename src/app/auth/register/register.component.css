@@ -1,0 +1,22 @@
+/* Ajusta la ruta a tu imagen */
+
+/* Otras propiedades opcionales para ajustar la apariencia de la imagen de fondo */
+/* background-repeat: no-repeat; */
+/* background-position: center; */
+/* background-attachment: fixed; */
+
+
+.background-0 {
+    background-image: url('/../assets/images/iniciativa-vengadores.avif');
+    background-size: cover;
+}
+
+.background-1 {
+    background-image: url('/../assets/images/harry-potter-letter.jpg');
+    background-size: cover;
+}
+
+.background-2 {
+    background-image: url('/../assets/images/hunger-games.jpg');
+    background-size: cover;
+}

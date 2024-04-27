@@ -1,0 +1,58 @@
+<header
+  class="bg-basico py-1 fixed w-full z-50 overflow-hidden px-6 sm:px-10 grid grid-cols-12 items-center max-h-20"
+>
+  <!-- Logo -->
+  <div class="flex items-center col-span-4 sm:col-span-2">
+    <img
+      src="assets/images/logo-snobs.png"
+      alt="Logo"
+      class="h-16 sm:h-20 object-contain"
+    />
+    <div class="text-white text-xl font-bold">SNOBS</div>
+  </div>
+  <app-buscador class="col-span-4 sm:col-span-3"></app-buscador>
+  <!-- Menú de navegación -->
+  <nav class="space-x-4 ml-auto col-span-4 sm:col-span-4 text-right">
+    <a routerLink="/inicio" (click)="closeSearch()" class="text-gray-300 hover:text-white">Inicio</a>
+    <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
+      >Acerca</a
+    >
+    <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
+      >Servicios</a
+    >
+    <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
+      >Contacto</a
+    >
+
+    <ng-container *ngIf="!usuarioLogeado; else loggedIn">
+      <a routerLink="/login" class="text-gray-300 hover:text-white">Login</a>
+      <a routerLink="/register" class="text-gray-300 hover:text-white"
+        >Regístrate</a
+      >
+    </ng-container>
+    <ng-template #loggedIn>
+      <a href="#" (click)="logoutUser()" class="text-gray-300 hover:text-white"
+        >Logout</a
+      >
+      <a routerLink="/privada" class="text-gray-300 hover:text-white"
+        >Privada</a
+      >
+    </ng-template>
+  </nav>
+  <!-- Perfil de usuario -->
+  <div class="col-span-4 sm:col-span-3 flex items-center justify-end gap-4">
+    <ng-container *ngIf="usuarioLogeado; else notLoggedIn">
+      <p class="text-white">{{ usuario.username }}</p>
+      <a routerLink="/profile/{{ usuario.username }}">
+        <img
+          [src]="server + '/uploads/' + usuario.avatar"
+          alt="avatar"
+          class="h-10 sm:h-14 w-10 sm:w-14 rounded-full object-cover"
+        />
+      </a>
+    </ng-container>
+    <ng-template #notLoggedIn>
+      <p class="text-white">Usuario no conectado</p>
+    </ng-template>
+  </div>
+</header>

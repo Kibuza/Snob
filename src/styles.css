@@ -1,0 +1,24 @@
+/* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.ng-valid:not(form).ng-touched{
+    border-left: 5px solid green;
+}
+
+.ng-invalid:not(form).ng-touched{
+    border-left: 5px solid rgb(161, 13, 13);
+}
+
+.ng-valid:not(form).ng-untouched{
+    border-left: 5px solid grey;
+}
+
+.ng-invalid:not(form).ng-untouched{
+    border-left: 5px solid grey;
+}
+
+body{
+    background-color:  #f3ebed;
+}

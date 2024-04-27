@@ -1,0 +1,91 @@
+<div
+  *ngIf="isLoading; else content"
+  class="flex justify-center items-center pt-10"
+>
+  <img src="/../assets/images/gif-carga.gif" class="h-20" alt="" />
+</div>
+<ng-template #content>
+  <div *ngIf="mi_review !== ''">
+    <div class="flex max-w-screen-xl mx-auto my-10 flex-col">
+      <label for="review" class="block text-gray-700 font-bold"
+        >Tu reseña:</label
+      >
+      @if (mi_review != "") {
+      <div class="bg-gray-300 p-4 rounded-lg shadow-md relative">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-3">
+            <img
+              [src]="'http://localhost:3000/uploads/' + mi_review.user.avatar"
+              alt="avatar"
+              class="h-10 w-10 object-cover rounded-full"
+            />
+            <p>{{ mi_review.user.username }}</p>
+          </div>
+          <button
+            class="px-3 py-1 bg-red-500 text-white rounded-md"
+            (click)="eliminar(mi_review._id)"
+          >
+            X
+          </button>
+        </div>
+        <p class="text-gray-700">{{ mi_review.text }}</p>
+      </div>
+
+      } @else{
+      <textarea
+        #reviewTextarea
+        id="review"
+        name="review"
+        rows="4"
+        class="mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50"
+      ></textarea>
+      <button
+        class="bg-botones hover:bg-botones-hover text-white font-bold py-2 px-4 rounded"
+        type="submit"
+        (click)="registerReview(reviewTextarea.value)"
+      >
+        Guardar reseña
+      </button>
+      }
+    </div>
+    <div class="flex max-w-screen-xl mx-auto my-10 flex-col">
+      @if(reviews.length > 0){
+      <h2 class="text-2xl font-bold mb-4">Reseñas de la película</h2>
+      <div class="grid grid-cols-1 gap-4">
+        <!-- Itera sobre el array de reseñas -->
+        @for (review of reviews; track $index) {
+        <div
+          id="review-{{ $index }}"
+          class="bg-gray-100 p-4 rounded-lg shadow-md flex flex-row justify-between"
+        >
+          <div>
+            <div id="user" class="flex items-center flex-row gap-3 mb-2">
+              <img
+                [src]="'http://localhost:3000/uploads/' + review.user.avatar"
+                alt="avatar"
+                class="h-10 w-10 object-cover rounded-full"
+              />
+              <p>{{ review.user.username }}</p>
+              <app-follow [user]="review.user"></app-follow>
+            </div>
+
+            <p class="text-gray-700">{{ review.text }}</p>
+          </div>
+          @if(isAdmin){
+            <button
+              class="px-3 py-1 bg-red-500 text-white rounded-md"
+              (click)="eliminar(review._id)"
+            >
+              X</button
+            >}
+        </div>
+ }
+        <!-- Si no hay reseñas -->
+      </div>
+      }
+      <div *ngIf="reviews.length === 0" class="text-gray-700">
+        Todavía no hay reseñas, ¡sé el primero!
+      </div>
+    </div>
+  </div>
+</ng-template>
