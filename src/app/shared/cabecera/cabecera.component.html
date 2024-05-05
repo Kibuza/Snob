@@ -1,58 +1,52 @@
 <header
-  class="bg-basico py-1 fixed w-full z-50 overflow-hidden px-6 sm:px-10 grid grid-cols-12 items-center max-h-20"
+  class="bg-basico py-1 fixed w-full z-50 overflow-hidden px-6 sm:px-10 items-center max-h-20 flex justify-between"
 >
   <!-- Logo -->
-  <div class="flex items-center col-span-4 sm:col-span-2">
+  <div class="flex items-center">
     <img
       src="assets/images/logo-snobs.png"
       alt="Logo"
       class="h-16 sm:h-20 object-contain"
     />
-    <div class="text-white text-xl font-bold">SNOBS</div>
+    <div class="text-white text-xl font-bold hidden md:inline">SNOBS</div>
   </div>
-  <app-buscador class="col-span-4 sm:col-span-3"></app-buscador>
+  <!-- Buscador -->
+  <app-buscador class=""></app-buscador>
   <!-- Menú de navegación -->
-  <nav class="space-x-4 ml-auto col-span-4 sm:col-span-4 text-right">
+  <nav class="text-right flex gap-4">
     <a routerLink="/inicio" (click)="closeSearch()" class="text-gray-300 hover:text-white">Inicio</a>
-    <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
-      >Acerca</a
+    <a routerLink="/estrenos" class="hidden lg:inline text-gray-300 hover:text-white"
+      >Estrenos</a
     >
-    <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
-      >Servicios</a
+    <a routerLink="/users" class="hidden lg:inline text-gray-300 hover:text-white"
+      >Conecta</a
     >
     <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
       >Contacto</a
     >
-
-    <ng-container *ngIf="!usuarioLogeado; else loggedIn">
-      <a routerLink="/login" class="text-gray-300 hover:text-white">Login</a>
-      <a routerLink="/register" class="text-gray-300 hover:text-white"
-        >Regístrate</a
-      >
-    </ng-container>
-    <ng-template #loggedIn>
-      <a href="#" (click)="logoutUser()" class="text-gray-300 hover:text-white"
-        >Logout</a
-      >
+    @if(usuarioLogeado){
       <a routerLink="/privada" class="text-gray-300 hover:text-white"
         >Privada</a
       >
-    </ng-template>
+    }
   </nav>
   <!-- Perfil de usuario -->
-  <div class="col-span-4 sm:col-span-3 flex items-center justify-end gap-4">
+  <div class="flex items-center justify-end gap-4">
     <ng-container *ngIf="usuarioLogeado; else notLoggedIn">
-      <p class="text-white">{{ usuario.username }}</p>
-      <a routerLink="/profile/{{ usuario.username }}">
+      <p class="text-white" style="margin-bottom: 0px;">{{ usuario.displayName }}</p>
+      <a routerLink="/profile/{{ usuario.displayName }}">
         <img
-          [src]="server + '/uploads/' + usuario.avatar"
+          [src]="usuario.photoURL"
           alt="avatar"
           class="h-10 sm:h-14 w-10 sm:w-14 rounded-full object-cover"
         />
       </a>
     </ng-container>
     <ng-template #notLoggedIn>
-      <p class="text-white">Usuario no conectado</p>
+      <a routerLink="/login" class="transition duration-300 ease-in-out border border-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded">Iniciar sesión</a>
+      <a routerLink="/register" class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
+        >Regístrate</a
+      >
     </ng-template>
   </div>
 </header>

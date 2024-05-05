@@ -1,0 +1,15 @@
+<div class="flex items-center justify-center">
+    <label for="fileUpload" class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">
+      Elige un archivo
+    </label>
+    <input id="fileUpload" type="file" class="hidden" (change)="onFileSelected($event)" #upload />
+    <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-4" (click)="uploadFile(upload)">
+      Upload
+    </button>
+  </div>
+  <div class="flex items-center justify-center">
+    @if(selectedFileName != ""){
+      <p class="m-4 pt-5">{{message}}</p>
+    }
+  </div>
+  

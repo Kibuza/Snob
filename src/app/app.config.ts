@@ -1,31 +1,24 @@
 import { ApplicationConfig, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding, withViewTransitions } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import {
-  HttpClient,
   HttpClientModule,
   provideHttpClient,
   withFetch,
-  HTTP_INTERCEPTORS,
 } from '@angular/common/http';
-import { AuthGuard } from './auth.guard';
-// import { TokenInterceptorService } from './services/auth/token-interceptor.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { firebaseProviders } from '../../firebase.config';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideRouter(routes),
+    provideRouter(routes, withViewTransitions(), withComponentInputBinding()),
     provideClientHydration(),
     importProvidersFrom(HttpClientModule),
     provideHttpClient(withFetch()),
     //Este es el provider para los guards de las rutas
-    AuthGuard,
-    //Este el provider que hace que funcione el interceptor de tokens
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: TokenInterceptorService,
-    //   multi: true,
-    // },
+    provideAnimationsAsync(),
+    firebaseProviders //Viene de firebase.config
   ],
 };

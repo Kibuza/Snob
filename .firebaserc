@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "snobs-58321": {
+      "hosting": {
+        "Snob": [
+          "snobs-58321"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "snobs-58321"
+  }
+}

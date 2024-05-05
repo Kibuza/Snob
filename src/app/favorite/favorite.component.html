@@ -1,0 +1,21 @@
+<div class="flex justify-center py-4 w-1/2">
+    @if(favorites.includes(pelicula.id)){
+     <button
+      class="transition duration-300 ease-in-out bg-basico hover:bg-slate-50  hover:text-botones hover:border-red-500 text-white font-bold px-1 rounded text-center text-xs"
+      (mouseenter)="hovered = true"
+      (mouseleave)="hovered = false"
+      (click)="dejardeSeguir()"
+    >
+      {{ hovered ? "QUITAR DE FAVORITOS" : "FAVORITA" }}
+     </button>
+    }@else{
+    <button
+      class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-bold px-1 rounded text-center text-xs border border-transparent"
+      (click)="seguir()"
+    > 
+      AÑADIR A FAVORITOS
+    </button>
+    } 
+    <app-ventana-emergente [mensaje]="mensaje"></app-ventana-emergente>
+  </div>
+  

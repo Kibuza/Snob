@@ -3,11 +3,13 @@ import { PeliculaComponent } from '../pelicula/pelicula.component';
 import { ActivatedRoute } from '@angular/router';
 import { APITMDBService } from '../../services/api-tmdb.service';
 import { ReviewComponent } from '../review/review.component';
+import { VentanaEmergenteComponent } from '../../shared/ventana-emergente/ventana-emergente.component';
+import { FavoriteComponent } from '../../favorite/favorite.component';
 
 @Component({
   selector: 'app-detalles-pelicula',
   standalone: true,
-  imports: [PeliculaComponent, ReviewComponent],
+  imports: [PeliculaComponent, ReviewComponent, VentanaEmergenteComponent, FavoriteComponent],
   templateUrl: './detalles-pelicula.component.html',
   styleUrl: './detalles-pelicula.component.css'
 })

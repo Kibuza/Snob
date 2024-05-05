@@ -107,15 +107,20 @@
               class="flex w-full justify-center rounded-md bg-botones px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-botones-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
               Inicia sesión
             </button>
+            <button type="button" class="login-with-google-btn flex w-full justify-center text-center mt-5 rounded-md" (click)="loginWithGoogle()" >
+              Entrar con Google
+            </button>
           </div>
         </form>
         
-        <p class="mt-10 text-center text-sm text-gray-500">
+        <div class="mt-10">        <p class="text-center text-md text-gray-500">
           ¿Aún no tienes cuenta?
           <a
             routerLink="/register"
-            class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500">Regístrate</a>
-        </p>
+            class="font-semibold leading-6 text-otros hover:text-cyan-700"
+            >Regístrate</a
+          >
+        </p></div>
       </div>
     </div>
   </div>

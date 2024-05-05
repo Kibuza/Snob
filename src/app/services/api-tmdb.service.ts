@@ -30,4 +30,9 @@ export class APITMDBService {
       { headers: this.headers }
     );
   }
+
+   getUpcomingMovies():Observable<any> {
+     return this.http.get<any>('https://api.themoviedb.org/3/movie/upcoming?language=es-ES', {headers: this.headers}
+   )};
+
 }

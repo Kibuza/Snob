@@ -7,43 +7,81 @@
       <div class="flex items-center justify-center mb-6">
         <img
           class="h-52 w-52 rounded-full"
-          [src]="'http://localhost:3000/uploads/' + user.avatar"
+          [src]="user.photoURL"
           alt="Avatar"
         />
       </div>
-      <app-upload-files></app-upload-files>
+      <app-storage></app-storage>
+      <!-- <app-upload-files></app-upload-files> -->
     </div>
     <div class="p-8 col-span-8">
       <!-- Nombre de usuario -->
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="username"
+        <label class="block text-gray-700 font-bold mb-2 text-xl" for="username"
           >Nombre:</label
         >
-        <p class="text-gray-900">{{ user.username }}</p>
+        <p class="text-gray-900">{{ user.displayName }}</p>
       </div>
       <!-- Correo electrónico -->
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="email"
+        <label class="block text-gray-700 font-bold mb-2 text-xl" for="email"
           >Email:</label
         >
         <p class="text-gray-900">{{ user.email }}</p>
       </div>
-      <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2" for="email"
+      <div class="mb-6">
+        <label class="block text-gray-700 font-bold mb-2 text-xl" for="email"
           >Seguidos:</label
         >
-        <div class="flex flex-row flex-wrap">
-          @for (usuario of seguidos; track $index) {
-          <div class="flex flex-col items-center mx-4 mb-4">
-            <img
-              src="http://localhost:3000/uploads/{{ usuario.avatar }}"
-              alt=""
-              class="h-20 w-20 rounded-full mb-2"
-            />
-            <p class="text-gray-900">{{ usuario.username }}</p>
+        @if(seguidos.length > 0){
+          <div class="flex flex-row flex-wrap h-40 gap-3 items-start">
+            @for (usuario of seguidos; track $index) {
+             <div class="grid grid-rows-3 w-20 relative">
+              <button class="bg-red-500 text-white rounded-full p-1 absolute top-0 right-0" (click)="dejardeSeguir(usuario)">X</button>
+              <img
+                [src]="usuario.avatar"
+                alt=""
+                class="w-full h-32 mb-2 object-cover row-span-2 rounded-full"
+              />
+              <p class="text-gray-900 row-span-1 line-clamp-2 h-10">{{ usuario.username }}</p>
+            </div>
+            }
           </div>
-          }
-        </div>
+        }
+        @else{
+          <div><p style="margin-bottom: 0px;">Aún no sigues a nadie.</p></div>
+        }
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 font-bold mb-2 text-xl" for="email"
+          >Favoritas:</label
+        >
+        @if(favorites.length > 0){
+          <div class="flex flex-row flex-wrap h-44 gap-3 items-start ">
+            @for (pelicula of favorites; track $index) {
+             <div class="grid grid-rows-3 w-20 relative ">
+              <button class="bg-red-500 text-white rounded-full p-1 absolute top-0 right-0" (click)="quitarFavorito(pelicula)">X</button>
+              <img
+              [src]="'https://image.tmdb.org/t/p/original' + pelicula.poster_path"
+                alt=""
+                class="w-full h-32 mb-2 object-cover row-span-2"
+              />
+              <p class="text-gray-900 row-span-1">{{ pelicula.title }}</p>
+            </div>
+            }
+          </div>
+        }
+        @else{
+          <div><p style="margin-bottom: 0px;">Aún no tienes películas favoritas.</p></div>
+        }
+      </div>
+      <div>
+        <a
+          href="#"
+          (click)="logoutUser()"
+          class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
+          >Cerrar sesión</a
+        >
       </div>
     </div>
   </div>

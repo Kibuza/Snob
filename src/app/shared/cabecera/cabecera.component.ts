@@ -1,11 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { BuscadorComponent } from '../buscador/buscador.component';
 import { RouterLink } from '@angular/router';
-import { LoginService } from '../../services/auth/login.service';
-import { AuthService } from '../../services/auth/token-auth.service';
-import { ServerURLService } from '../../services/server-url.service';
 import { NgIf } from '@angular/common';
 import { BusquedaService } from '../../services/busqueda.service';
+import { UserFService } from '../../services/user-f.service';
 
 @Component({
   selector: 'app-cabecera',
@@ -17,30 +15,20 @@ import { BusquedaService } from '../../services/busqueda.service';
 export class CabeceraComponent implements OnInit {
   usuarioLogeado: boolean = false;
   usuario: any | null = null;
-  server: string = this.serverUrl.getServerUrl();
 
   constructor(
-    private authService: AuthService,
-    private loginService: LoginService,
-    private serverUrl: ServerURLService,
-    private busquedaService: BusquedaService
+    private busquedaService: BusquedaService,
+    private authService : UserFService
   ) {}
 
   ngOnInit(): void {
-    this.loginService.loggedIn().subscribe((logeado: boolean) => {
-      if (logeado) {
-        this.authService.getActualUser().subscribe((data) => {
-          if (data) {
-            this.usuario = data;
-            this.authService.setUser(data);
-            this.usuarioLogeado = logeado;
-          }
-        });
+    this.authService.user$.subscribe((user) => {
+      if (user) {
+        this.usuario = user;
+        console.log(this.usuario);
+        this.usuarioLogeado = true;
       }
-    });
-  }
-  logoutUser() {
-    localStorage.removeItem('token');
+    })
   }
 
   closeSearch(){

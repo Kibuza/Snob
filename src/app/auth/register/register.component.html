@@ -52,7 +52,8 @@
             Lo sentimos, has sido seleccionado como tributo
           </p>
           <p>
-            Este año ha salido tu nombre en tu distrito, espero que sepas luchas.
+            Este año ha salido tu nombre en tu distrito, espero que sepas
+            luchas.
           </p>
         </li>
         } }
@@ -133,28 +134,40 @@
           </div>
 
           <div>
-            <div class="flex items-center justify-between">
-              <label
-                for="password"
-                class="block text-sm font-medium leading-6 text-gray-900"
-                >Contraseña</label
-              >
-            </div>
-            <div class="mt-2">
-              <input
-                formControlName="password"
-                id="password"
-                name="password"
-                type="password"
-                autocomplete="current-password"
-                class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
-              />
-              <div
-                *ngIf="password.invalid && (password.dirty || password.touched)"
-                class="mt-2 text-red-500 text-sm"
-              >
-                <div *ngIf="password.errors?.['required']" class="mt-1">
-                  Debes poner la contraseña.
+            <div>
+              <div class="flex items-center justify-between">
+                <label
+                  for="password"
+                  class="block text-sm font-medium leading-6 text-gray-900"
+                  >Contraseña</label
+                >
+              </div>
+              <div class="mt-2">
+                <input
+                  formControlName="password"
+                  id="password"
+                  name="password"
+                  type="password"
+                  autocomplete="current-password"
+                  class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                />
+                <div
+                  *ngIf="
+                    password.invalid && (password.dirty || password.touched)
+                  "
+                  class="mt-2 text-red-500 text-sm"
+                >
+                  <div *ngIf="password.errors?.['required']" class="mt-1">
+                    Debes poner la contraseña.
+                  </div>
+                  <div
+                    *ngIf="password.errors?.['invalidPassword']"
+                    class="mt-1"
+                  >
+                    La contraseña debe tener al menos una minúscula, una
+                    mayúscula, un número, un símbolo y tener al menos 7
+                    caracteres.
+                  </div>
                 </div>
               </div>
             </div>
@@ -173,7 +186,7 @@
                 formControlName="r_password"
                 id="r_password"
                 name="r_password"
-                type="r_password"
+                type="password"
                 class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
               />
               <div
@@ -199,15 +212,16 @@
             </button>
           </div>
         </form>
-
-        <p class="mt-10 text-center text-sm text-gray-500">
-          ¿Ya estás regristrado?
-          <a
-            routerLink="/login"
-            class="font-semibold leading-6 text-indigo-600 hover:text-indigo-500"
-            >Inicia sesión</a
-          >
-        </p>
+        <div class="mt-10">
+          <p class="text-center text-md text-gray-500">
+            ¿Ya estás regristrado?
+            <a
+              routerLink="/login"
+              class="font-semibold leading-6 text-otros hover:text-cyan-700"
+              >Inicia sesión</a
+            >
+          </p>
+        </div>
       </div>
     </div>
   </div>

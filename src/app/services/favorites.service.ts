@@ -16,47 +16,47 @@ import {
   where,
 } from '@angular/fire/firestore';
 import { EMPTY, Observable, map, take } from 'rxjs';
-import { Follow, FollowForm } from '../interfaces/follows.interface';
+import { Favorite, FavoriteForm } from '../interfaces/favorites.interface';
 
-const PATH = 'follows';
+const PATH = 'favorites';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
-export class FollowService {
+export class FavoritesService {
+
+  constructor() { }
+
   private _firestore = inject(Firestore);
   private _collection = collection(this._firestore, PATH);
 
-  constructor() {}
+    //Saca todos los favoritos
+    getFavorites() {
+      return collectionData(this._collection, { idField: 'id' }).pipe(
+        take(1)
+      ) as Observable<Favorite[]>;
+    }
 
-  //Saca todos los follows
-  getFollows() {
-    return collectionData(this._collection, { idField: 'id' }).pipe(
-      take(1)
-    ) as Observable<Follow[]>;
-  }
+    getFavoritesByUser(id: string): Observable<any> {
+      const queryRef = query(this._collection, where('id_usuario', '==', id));
+      return collectionData(queryRef, { idField: 'id' }).pipe(
+        take(1),
+        map((favorites) => {
+          if (favorites.length === 0) {
+            return EMPTY; // Devuelve un observable vacío si no hay resultados
+          } else {
+            return favorites; // Devuelve los resultados si se encontraron seguidores
+          }
+        })
+      );
+    }
 
-  //Saca los follows de un usuario
-  getFollowsByUser(id: string): Observable<any> {
-    const queryRef = query(this._collection, where('id_usuario', '==', id));
-    return collectionData(queryRef, { idField: 'id' }).pipe(
-      take(1),
-      map((follows) => {
-        if (follows.length === 0) {
-          return EMPTY; // Devuelve un observable vacío si no hay resultados
-        } else {
-          return follows; // Devuelve los resultados si se encontraron seguidores
-        }
-      })
-    );
-  }
-
-  //Crea un follow
-  async createFollow(follow: FollowForm) {
+      //Crea un favorito
+  async createFavorite(favorite: FavoriteForm) {
     // Obtener la consulta para encontrar el documento del usuario que sigue
     const userQuery = query(
       this._collection,
-      where('id_usuario', '==', follow.id_usuario)
+      where('id_usuario', '==', favorite.id_usuario)
     );
     // Realizar la consulta
     const userDocs = await getDocs(userQuery);
@@ -65,29 +65,29 @@ export class FollowService {
     if (userDocs.empty) {
       // Si no se encuentra ningún usuario con el id_usuario especificado, simplemente agregar el documento de seguimiento
       //return addDoc(this._collection, follow);
-      this.createNewFollow(follow);
+      this.createNewFollow(favorite);
     } else {
       // Actualizar la lista de seguidos del usuario
       const userDoc = userDocs.docs[0]; // Suponiendo que solo hay uno
       return await updateDoc(userDoc.ref, {
-        id_usuarios_seguidos: arrayUnion(follow.id_usuarios_seguidos),
+        id_peliculas_favoritas: arrayUnion(favorite.id_peliculas_favoritas),
       });
     }
   }
 
-  async createNewFollow(follow: FollowForm) {
-    const followRef = doc(this._collection);
-    await setDoc(followRef, {
-      id_usuario: follow.id_usuario,
-      id_usuarios_seguidos: [follow.id_usuarios_seguidos],
+  async createNewFollow(favorite: FavoriteForm) {
+    const favoriteRef = doc(this._collection);
+    await setDoc(favoriteRef, {
+      id_usuario: favorite.id_usuario,
+      id_peliculas_favoritas: [favorite.id_peliculas_favoritas],
     });
   }
 
-  async eliminarSeguido(follow: FollowForm) {
+  async deleteFavorite(favorite: FavoriteForm) {
     // Obtener la consulta para encontrar el documento del usuario que sigue
     const userQuery = query(
       this._collection,
-      where('id_usuario', '==', follow.id_usuario)
+      where('id_usuario', '==', favorite.id_usuario)
     );
 
     // Realizar la consulta
@@ -102,7 +102,8 @@ export class FollowService {
 
     // Eliminar el idUsuarioSeguido del array id_usuarios_seguidos
     await updateDoc(userDoc.ref, {
-      id_usuarios_seguidos: arrayRemove(follow.id_usuarios_seguidos),
+      id_peliculas_favoritas: arrayRemove(favorite.id_peliculas_favoritas),
     });
   }
+
 }

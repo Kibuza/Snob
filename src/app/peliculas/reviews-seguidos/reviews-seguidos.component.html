@@ -1,4 +1,4 @@
-@if(user != null || reviews_filtradas.length > 0){
+@if(user != "" && reviews_filtradas.length > 0){
   <div class="rounded-md mt-2">
     <!-- Aquí puedo poner fondo al div de reviews-->
     <p class="text-xl font-bold pt-4 pl-4 text-zinc-500">Tu gente opina</p>
@@ -11,30 +11,30 @@
           id="review-{{ $index }}"
           class="bg-gray-100 p-4 rounded-lg shadow-md grid grid-cols-12 gap-3"
         >
-          <div id="pelicula" class="col-span-1 bg-slate-500 w-full h-full">
-            <a [routerLink]="['/detalles', review.review.movie.id]">
+          <div id="pelicula" class="col-span-1 w-full h-full">
+            <a [routerLink]="['/detalles', review.id_pelicula]">
             <img
               class="h-40 w-32 object-cover hover:scale-105 transition-transform duration-300"
               [src]="
                 'https://image.tmdb.org/t/p/original' +
-                review.review.movie.poster_path
+                review.pelicula.poster_path
               "
-              alt="Poster de {{ review.review.movie.title }}"
+              alt="Poster de {{ review.pelicula.title }}"
             />
           </a>
           </div>
   
-          <div id="comentario" class="col-span-10 flex flex-col gap-3">
+          <div id="comentario" class="col-span-11 flex flex-col gap-3 mx-5">
             <div id="user" class="flex flex-row gap-3 items-center">
               <img
-                [src]="'http://localhost:3000/uploads/' + review.user.avatar"
+              [src]="review.usuario.avatar"
                 alt="avatar"
                 class="h-10 w-10 object-cover rounded-full"
               />
-              <p><span class="text-botones"> {{ review.user.username }} </span> ha opinado sobre <span class="italic font-semibold">{{ review.review.movie.title }}</span></p>
+              <p style="margin-bottom: 0;"><span class="text-botones"> {{ review.usuario.username }} </span> ha opinado sobre <span class="italic font-semibold">{{ review.pelicula.title }}</span></p>
             </div>
             <div id="text">
-              <p class="text-gray-700">{{ review.review.text }}</p>
+              <p id="texto" class="text-gray-700">{{ review.text }}</p>
             </div>
           </div>
         </div>
@@ -47,11 +47,18 @@
       }
     </div>
   </div>
+}@else if(user==""){
+  <div
+  class="container bg-gray-100 p-4 rounded-lg shadow-md gap-3 flex items-center justify-center mx-auto m-4 font-bold"
+>
+<p style="margin-bottom: 0px;">Entra con tu cuenta para ver las publicaciones de tus Snobs favoritos.</p>
+
+</div>
 }@else{
   <div
   class="container bg-gray-100 p-4 rounded-lg shadow-md gap-3 flex items-center justify-center mx-auto m-4 font-bold"
 >
-<p>Empieza a seguir a snobs para ver sus publicaciones.</p>
+<p style="margin-bottom: 0px;">¡Aún no sigues a nadie! Empieza a seguir a snobs para ver sus publicaciones.</p>
 </div>
 }
 

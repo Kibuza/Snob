@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../../services/auth/token-auth.service';
-import { ServerURLService } from '../../services/server-url.service';
-import { FollowService } from '../../services/follow.service';
-import { Observable, forkJoin, map, mergeMap, switchMap } from 'rxjs';
-import { ReviewService } from '../../services/reviews.service';
+import { Observable, forkJoin, from, map, mergeMap, switchMap } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { APITMDBService } from '../../services/api-tmdb.service';
 import { RouterLink } from '@angular/router';
+import { UserFService } from '../../services/user-f.service';
+import { FollowService } from '../../services/follow.service';
+import { ReviewsFService } from '../../services/reviews-f.service';
 
 @Component({
   selector: 'app-reviews-seguidos',
@@ -23,86 +22,61 @@ export class ReviewsSeguidosComponent {
   reviews_filtradas: any = [];
 
   constructor(
-    private authService: AuthService,
-    private serverUrl: ServerURLService,
+    private authService: UserFService,
+    private movieService: APITMDBService,
     private followService: FollowService,
-    private reviewService: ReviewService,
-    private movieService: APITMDBService
+    private reviewService: ReviewsFService
   ) {}
   ngOnInit(): void {
-    this.authService.getUser().subscribe((user) => {
+    this.authService.user$.subscribe((user) => {
       if (user) {
         this.user = user; // Asigna el usuario obtenido
         this.obtenerSeguidos();
+        this.filtrarReviews();
       }
     });
-    this.server = this.serverUrl.getServerUrl();
   }
 
   obtenerSeguidos() {
-    this.followService.getFollows(this.user._id).subscribe((follows) => {
-      const seguidos = follows[0].follows;
-
-      // Crear un array de observables para las llamadas asincrónicas
-      const observables = seguidos.map((usuario: string) => {
-        return this.getReviewsObservable(usuario);
-      });
-
-      // Esperar a que todas las llamadas asincrónicas se completen
-      forkJoin(observables).subscribe((usersReviews: any) => {
-        this.reviews = usersReviews;
-        console.log(this.reviews);
-
-        // Flattening usersReviews into one array of reviews
-        this.reviews_filtradas = usersReviews.reduce(
-          (acc: any[], user: any) => {
-            // Transformar cada revisión para que incluya el atributo user
-            const reviewsWithUser = user.reviews.map((review: any) => {
-              return {
-                user: user.user, // Incluir el atributo user
-                review: review, // Mantener la revisión original
-              };
+    this.followService.getFollowsByUser(this.user.uid).subscribe((follows) => {
+      //console.log(follows);
+      if (follows.length > 0) {
+        const seguidos = follows[0].id_usuarios_seguidos;
+        console.log('1: seguidos');
+        console.log(seguidos);
+        //Ahora voy a llamar a las reviews escritas por los seguidos
+        seguidos.forEach((id_Seguido) => {
+          console.log('2. cada seguido:');
+          this.authService.getUser(id_Seguido).then((user) => {
+            console.log(user);
+            this.reviewService.getReviewsByUserId(id_Seguido).then((review) => {
+              review.forEach((review) => {
+                this.movieService.getMovieById(review.id_pelicula).subscribe(
+                  (movie) => {
+                    review.pelicula = movie;
+                    review.usuario = user;
+                    this.reviews.push(review);
+                    console.log(review);
+                  }
+                )
+              });
             });
-            // Concatenar las revisiones transformadas al acumulador
-            return acc.concat(reviewsWithUser);
-          },
-          []
-        );
-        // Ordenar el array reviews_filtradas en base al atributo createdAt de cada revisión
-        this.reviews_filtradas.sort((a: any, b: any) => {
-          // Convertir las fechas a objetos Date para poder compararlas
-          const dateA: Date = new Date(a.review.createdAt);
-          const dateB: Date = new Date(b.review.createdAt);
-          // Comparar las fechas y devolver el resultado de la comparación
-          return dateB.getTime() - dateA.getTime();
+          });
         });
-        console.log(this.reviews_filtradas);
-      });
+      }
     });
   }
-  getReviewsObservable(userId: string): Observable<any> {
-    return this.authService.getUserInfo(userId).pipe(
-      switchMap((user) => {
-        return this.reviewService.getReviewByUserId(userId).pipe(
-          mergeMap((reviews) => {
-            // Obtener los datos de la película para cada revisión
-            const movieObservables = reviews.map((review: any) => {
-              return this.movieService.getMovieById(review.id_pelicula).pipe(
-                map((movieData) => {
-                  return { ...review, movie: movieData }; // Incluir los datos de la película en la revisión
-                })
-              );
-            });
-            // Esperar a que todas las llamadas asincrónicas de obtener datos de la película se completen
-            return forkJoin(movieObservables).pipe(
-              map((reviewsWithMovie) => {
-                return { user, reviews: reviewsWithMovie }; // Devuelve un objeto que contiene tanto el usuario como sus reviews con datos de la película
-              })
-            );
-          })
-        );
-      })
-    );
+
+  filtrarReviews() {
+    this.reviews_filtradas = this.reviews;
   }
-  
+
+  mostrarMas() {
+    var parrafo = document.getElementById('texto');
+    if (parrafo) {
+      var lineas = parrafo.innerHTML.split('<br>').length; // Divide el texto en líneas basadas en las etiquetas <br>
+      return lineas;
+    }
+    return 0;
+  }
 }

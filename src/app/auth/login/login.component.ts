@@ -2,9 +2,8 @@ import { NgClass, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { LoginService } from '../../services/auth/login.service';
-import { loginRequest } from './loginRequest';
-import { AuthService } from '../../services/auth/token-auth.service';
+import { loginForm } from './loginRequest';
+import { UserFService } from '../../services/user-f.service';
 
 @Component({
   selector: 'app-login',
@@ -15,20 +14,19 @@ import { AuthService } from '../../services/auth/token-auth.service';
 })
 export class LoginComponent implements OnInit {
   loginUserData = {};
-  random: number = 0; // Inicializamos la variable random
+  random: number = 0; // Inicializamos la variable random (para el fondo)
   backgroundClass: string = ''; //Inicializamos la variable del fondo como string vacío
   loginError: string = '';
   //Con FormBuilder creas un el formulario de LOGIN
   loginForm = this.formBuilder.group({
-    email: ['carlos@gmail.com', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, Validators.email]],
     password: ['', Validators.required],
   });
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
-    private loginService: LoginService,
-    private authService: AuthService
+    private authService: UserFService
   ) {}
 
   ngOnInit(): void {
@@ -46,26 +44,28 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls.password;
   }
 
-  //Método que hace la lógica, si es válido (pasa los Validators) llama al servicio de login, si no, saca error
   loginUser() {
     if (this.loginForm.valid) {
-      this.loginService
-        .loginUser(this.loginForm.value as loginRequest)
-        .subscribe({
-          next: () => {
-            console.info('Logeado con éxito');
-            this.router.navigateByUrl('/inicio');
-            this.loginForm.reset();
-          },
-          error: (errorData) => {
-            console.error(errorData);
-            this.loginError = errorData;
-          }
+      this.authService
+        .login(this.loginForm.value as loginForm)
+        .then((response) => {
+          console.log(response);
+          this.router.navigateByUrl('/inicio');
+          this.loginForm.reset();
+        })
+        .catch((errorData) => {
+          console.error(errorData);
         });
     } else {
       this.loginForm.markAllAsTouched();
       //alert('Datos incorrectos');
     }
   }
-  
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().then((response)=>{
+      console.log(response);
+      this.router.navigateByUrl('/inicio');
+    });
+  }
 }
