@@ -21,6 +21,7 @@ export class ProfileComponent implements OnInit{
   user : any = [];
   seguidos : any = [];
   favorites : any = [];
+  startIndex: number = 0;
 
   constructor(private authService : UserFService, private followService : FollowService, private favoriteService : FavoritesService, private movieService : APITMDBService){}
 
@@ -95,6 +96,15 @@ export class ProfileComponent implements OnInit{
        }
      });
    }
+
+   mostrarMas() {
+    this.startIndex += 6; // Aumentar el índice inicial para mostrar las siguientes 6 películas
+  }
+
+  // Función de seguimiento para ngFor
+  trackFn(index: number, item: any) {
+    return index; // o algún identificador único del item si lo tienes
+  }
 
   logoutUser() {
     this.authService.logout();

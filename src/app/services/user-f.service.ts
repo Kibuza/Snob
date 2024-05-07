@@ -121,6 +121,8 @@ export class UserFService implements OnDestroy {
       });
     });
   }
+
+  //Busca el usuario por la id dada en la tabla "users"
   async getUser(id: string) {
     const docSnap = await getDoc(doc(this._collection, id));
     if (docSnap.exists()) {

@@ -21,6 +21,7 @@ export class ReviewComponent {
   reviews: any[] = [];
   mi_review: any = [];
   user: any;
+  user_bd: any;
   isAdmin: boolean = false;
 
   constructor(
@@ -32,9 +33,12 @@ export class ReviewComponent {
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.user = user;
-        // if (this.user.rol == 'ADMIN_ROLE') {
-        //   this.isAdmin = true;
-        // }
+        this.authService.getUser(user.uid).then((user_bd) => {
+          this.user_bd = user_bd;
+          if (this.user_bd.rol == 'ADMIN_ROLE') {
+            this.isAdmin = true;
+          }
+        })
         this.getReviews(this.movie.id);
       } else {
         // Maneja el caso en que no haya usuario disponible

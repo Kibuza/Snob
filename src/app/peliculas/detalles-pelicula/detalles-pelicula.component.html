@@ -6,7 +6,7 @@
       [src]="'https://image.tmdb.org/t/p/original' + movie.poster_path"
       alt="Poster de {{ movie.title }}"
     />
-    <app-favorite [pelicula]="movie" class="ml-16"></app-favorite>
+    <app-favorite [pelicula]="movie" class="w-1/2 flex justify-center"></app-favorite>
   </div>
 
   <div class="w-2/3 p-6 bg-slate-200 flex flex-col rounded items-center md:items-start">
@@ -15,9 +15,9 @@
     </div>
     <div class="font-bold text-2xl mb-2">{{ movie.title }}</div>
     <p class="text-gray-700 text-base">{{ movie.overview }}</p>
-    <div class="flex gap-5 mt-5">
+    <div class="flex gap-2 md:gap-5 mt-5">
       @for (genre of movie.genres; track $index) {
-        <p class="font-semibold text-sm mb-2 rounded-md bg-basico px-3 py-1 text-white flex justify-center w-auto">{{ genre.name }}</p>
+        <p class="font-semibold text-xs md:text-sm mb-2 rounded-md bg-basico px-3 py-1 text-white flex justify-center w-auto">{{ genre.name }}</p>
       }
     </div>
     <!-- Agrega más detalles de la película según sea necesario -->

@@ -3,10 +3,7 @@
 >
   <!-- Logo -->
   <div class="flex items-center">
-    <a
-      routerLink="/inicio"
-      (click)="closeSearch()"
-      class=""
+    <a routerLink="/inicio" (click)="closeSearch()" class=""
       ><img
         src="assets/images/logo-snobs.png"
         alt="Logo"
@@ -15,9 +12,10 @@
     <div class="text-white text-xl font-bold hidden md:inline">SNOBS</div>
   </div>
 
-    <!-- Buscador -->
-    <app-buscador class="hidden md:block"></app-buscador>
-
+  <!-- Buscador -->
+  @if(usuarioLogeado){ <app-buscador></app-buscador>}
+  
+  
   <!-- Menú de navegación (visible en dispositivos grandes) -->
   <nav
     id="mainMenu"
@@ -42,37 +40,44 @@
     <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
       >Contacto</a
     >
-    @if(usuarioLogeado){
-    }
+    @if(usuarioLogeado){ }
   </nav>
 
   <!-- Perfil de usuario -->
-  <div class="flex items-center justify-end gap-4">
-    <ng-container *ngIf="usuarioLogeado; else notLoggedIn">
-      <p class="text-white" style="margin-bottom: 0px">
-        {{ usuario.displayName }}
-      </p>
-      <a routerLink="/profile/{{ usuario.displayName }}">
-        <img
-          [src]="usuario.photoURL"
-          alt="avatar"
-          class="h-10 sm:h-14 w-10 sm:w-14 rounded-full object-cover"
-        />
-      </a>
-    </ng-container>
-    <ng-template #notLoggedIn>
-      <a
+
+
+      @if(usuarioLogeado){
+        <div class="hidden sm:block">
+        <div class="flex items-center justify-end gap-4">
+        <p class="text-white" style="margin-bottom: 0px">
+          {{ usuario.displayName }}
+        </p>
+        <a routerLink="/profile/{{ usuario.displayName }}">
+          <img
+            [src]="usuario.photoURL"
+            alt="avatar"
+            class="h-10 sm:h-14 w-10 sm:w-14 rounded-full object-cover"
+          />
+        </a>
+      </div>
+    </div>
+    }
+
+
+    @if(!usuarioLogeado){
+      <div class="flex items-center justify-end gap-4">
+        <a
         routerLink="/login"
         class="transition duration-300 ease-in-out border border-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
         >Iniciar sesión</a
       >
       <a
         routerLink="/register"
-        class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
+        class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded hidden sm:block"
         >Regístrate</a
       >
-    </ng-template>
-  </div>
+      </div>
+    }
 
   <!-- Botón de menú desplegable (visible en dispositivos pequeños) -->
   <button
@@ -99,7 +104,7 @@
   <!-- Menú desplegable para dispositivos pequeños -->
   <div
     id="mobileMenu"
-    class="md:hidden fixed top-0 left-0 w-1/5 h-1/5 bg-basico py-2 px-4 rounded-lg shadow-md hidden overflow-auto"
+    class="flex flex-col gap-2 hidden md:hidden fixed top-0 left-0 w-[90px] h-[160px] bg-basico py-1 px-4 rounded-lg shadow-md overflow-auto"
   >
     <a
       routerLink="/inicio"
@@ -107,6 +112,15 @@
       class="block text-gray-300 hover:text-white"
       >Inicio</a
     >
+    @if(usuarioLogeado){
+    <a
+      routerLink="/profile/{{ usuario.displayName }}"
+      (click)="closeSearch()"
+      class="block text-gray-300 hover:text-white"
+      >Mi perfil</a
+    >
+    }
+
     <a routerLink="/estrenos" class="block text-gray-300 hover:text-white"
       >Estrenos</a
     >
@@ -114,7 +128,5 @@
       >Conecta</a
     >
     <a href="#" class="block text-gray-300 hover:text-white">Contacto</a>
-    @if(usuarioLogeado){
-    }
   </div>
 </header>

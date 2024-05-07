@@ -8,13 +8,13 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [FormsModule],
   template: `
-<div class="flex items-center space-x-4">
+<div class="flex items-center w-4/5 space-x-3 md:w-full md:space-x-4 mx-4 md:mx-0">
   <input 
     id="busqueda" 
     type="text" 
     [(ngModel)]="searchTerm" 
     (keyup.enter)="onSearch()"
-    class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
+    class=" w-full md:w-full py-2 px-2 border border-gray-300 rounded-md focus:outline-none focus:border-blue-500"
     placeholder="Buscar..."
   />
   <button 
