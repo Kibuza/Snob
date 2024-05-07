@@ -7,7 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
   standalone: true,
   imports: [ListaPeliculasComponent, RouterModule],
   template: `
-  <div class="pt-20">
+  <div class="pt-20 min-h-screen">
   <router-outlet/>
   </div>    
   `,

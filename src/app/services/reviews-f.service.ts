@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
+import { Firestore, Timestamp, addDoc, collection, collectionData, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 import { Observable, take } from 'rxjs';
 import { Review, ReviewForm } from '../interfaces/reviews.interface';
 
@@ -63,7 +63,15 @@ export class ReviewsFService {
   }
 
   createReview(review : ReviewForm){
-    return addDoc(this._collection, review);
+
+    const docData = {
+      id_usuario: review.id_usuario,
+      id_pelicula: review.id_pelicula,
+      text: review.text,
+      fecha: Timestamp.fromDate(new Date()),
+    }
+    
+    return addDoc(this._collection, docData);
   }
 
   updateReview(id:string, review: ReviewForm){

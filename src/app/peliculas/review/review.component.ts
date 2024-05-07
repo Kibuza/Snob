@@ -50,10 +50,12 @@ export class ReviewComponent {
     try {
       const reviewData = await this.reviewsFService.getReviewsByMovie(id);
       // Array de promesas para obtener los usuarios de todas las revisiones
-      const getUserPromises = reviewData.map(review => this.getUser(review.id_usuario));
+      const getUserPromises = reviewData.map((review) =>
+        this.getUser(review.id_usuario)
+      );
       // Espera a que todas las promesas de obtención de usuarios se resuelvan
       const users = await Promise.all(getUserPromises);
-      
+
       // Introduce los usuarios en las revisiones correspondientes
       reviewData.forEach((review, index) => {
         const user = users[index]; // Obtiene el usuario correspondiente
@@ -93,7 +95,6 @@ export class ReviewComponent {
 
   async deleteReview(review_id: string) {
     try {
-      
       await this.reviewsFService.deleteReview(review_id);
       this.reviews = [];
       this.mi_review = [];
@@ -106,5 +107,20 @@ export class ReviewComponent {
   async getUser(id: string) {
     return await this.authService.getUser(id);
   }
-  
+
+  fechaFormateada(fecha: any) {
+    const date = fecha.toDate(); // Convertir Timestamp a Date
+
+    // Formatear la fecha en un formato legible
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    const formattedDate = date.toLocaleDateString('es-ES', options);
+
+    return formattedDate;
+  }
 }

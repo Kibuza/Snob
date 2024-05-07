@@ -32,6 +32,7 @@
                 class="h-10 w-10 object-cover rounded-full"
               />
               <p style="margin-bottom: 0;"><span class="text-botones"> {{ review.usuario.username }} </span> ha opinado sobre <span class="italic font-semibold">{{ review.pelicula.title }}</span></p>
+              <p class="text-right text-gray-400" style="margin-bottom: 0;">{{ fechaFormateada(review.fecha) }}</p>
             </div>
             <div id="text">
               <p id="texto" class="text-gray-700">{{ review.text }}</p>

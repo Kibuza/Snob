@@ -24,9 +24,9 @@ export class EstrenosComponent {
   loadMovies() {
     this.servicioMovies.getUpcomingMovies().subscribe({
       next: value => {
-        console.log('Observable emitted the next value: ' , value)
+        //console.log('Observable emitted the next value: ' , value)
         this.lista_movies = value.results;
-        console.log(this.lista_movies);
+        //console.log(this.lista_movies);
     },
       error: err => console.error('Observable emitted an error: ' + err),
       complete: () => console.log('Observable emitted the complete notification')

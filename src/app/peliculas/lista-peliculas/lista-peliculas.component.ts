@@ -40,9 +40,9 @@ export class ListaPeliculasComponent implements OnInit {
   loadMovies(searchTerm: String) {
     this.servicioMovies.getMovies(searchTerm).subscribe({
       next: (value) => {
-        console.log('Observable emitted the next value: ', value);
+        //console.log('Observable emitted the next value: ', value);
         this.lista_movies = value.results;
-        console.log(this.lista_movies);
+        //console.log(this.lista_movies);
       },
       error: (err) => console.error('Observable emitted an error: ' + err),
       complete: () =>

@@ -6,7 +6,7 @@
 </div>
  <ng-template #content>
   <div *ngIf="mi_review !== ''">
-    <div class="flex max-w-screen-xl mx-auto my-10 flex-col">
+    <div class="flex max-w-screen-xl mx-7 md:mx-auto my-10 flex-col">
       <label for="review" class="block text-gray-700 font-bold"
         >Tu reseña:</label
       >
@@ -19,7 +19,9 @@
               alt="avatar"
               class="h-10 w-10 object-cover rounded-full"
             />
-            <p>{{ mi_review.usuario.username }}</p>
+            
+            <p style="margin-bottom: 0;">{{ mi_review.usuario.username }}</p>
+            <p class="text-right text-gray-400" style="margin-bottom: 0;">{{ fechaFormateada(mi_review.fecha) }}</p>
           </div>
           <button
             class="px-3 py-1 bg-red-500 text-white rounded-md"
@@ -48,7 +50,7 @@
       </button>
       }
     </div>
-    <div class="flex max-w-screen-xl mx-auto my-10 flex-col">
+    <div class="flex max-w-screen-xl mx-7 md:mx-auto my-10 flex-col">
       @if(reviews.length > 0){
       <h2 class="text-2xl font-bold mb-4">Reseñas de la película</h2>
       <div class="grid grid-cols-1 gap-4">
@@ -63,7 +65,7 @@
             <!-- Contenido del usuario -->
             <div
               id="user"
-              class="flex justify-start items-center flex-row gap-3 mb-2"
+              class="flex justify-start items-center text-center flex-row gap-3 mb-2"
             >
               <img
                 [src]="review.usuario.avatar"
@@ -72,6 +74,7 @@
               />
               <p class="text-base" style="margin-bottom: 0;">{{ review.usuario.username }}</p>
               <app-follow [user_seguido]="review.usuario"></app-follow>
+              <p class="text-right text-gray-400" style="margin-bottom: 0;">{{ fechaFormateada(review.fecha) }}</p>
             </div>
             <!-- Texto de la reseña -->
             <div class="flex justify-start mt-2"><p class="text-gray-700 text-justify">{{ review.text }}</p></div>

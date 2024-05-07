@@ -31,6 +31,16 @@ export class CabeceraComponent implements OnInit {
     })
   }
 
+  abrirNav() {
+    var menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("hidden");
+    if (!menu.classList.contains("hidden")) {
+      var buttonRect = document.getElementById("menuBtn").getBoundingClientRect();
+      menu.style.top = buttonRect.bottom + 20 + "px";
+      menu.style.left = buttonRect.left - 40 + "px";
+    }
+  }
+
   closeSearch(){
     this.busquedaService.actualizarTerminoBusqueda("");
   }

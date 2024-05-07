@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-<footer class="bg-basico text-gray-300 body-font w-full">
+<footer class="bg-basico text-gray-300 body-font w-full z-50">
   <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
     <a class="flex title-font font-medium items-center md:justify-start justify-center text-white">
     <img src="assets/images/logo-snobs.png" alt="Logo" class="h-14 object-contain" />

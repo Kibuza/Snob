@@ -1,39 +1,57 @@
 <header
-  class="bg-basico py-1 fixed w-full z-50 overflow-hidden px-6 sm:px-10 items-center max-h-20 flex justify-between"
+  class="bg-basico py-1 fixed w-full z-40 overflow-hidden px-6 sm:px-10 items-center max-h-30 flex justify-between"
 >
   <!-- Logo -->
   <div class="flex items-center">
-    <img
-      src="assets/images/logo-snobs.png"
-      alt="Logo"
-      class="h-16 sm:h-20 object-contain"
-    />
+    <a
+      routerLink="/inicio"
+      (click)="closeSearch()"
+      class=""
+      ><img
+        src="assets/images/logo-snobs.png"
+        alt="Logo"
+        class="h-20 object-contain"
+    /></a>
     <div class="text-white text-xl font-bold hidden md:inline">SNOBS</div>
   </div>
-  <!-- Buscador -->
-  <app-buscador class=""></app-buscador>
-  <!-- Menú de navegación -->
-  <nav class="text-right flex gap-4">
-    <a routerLink="/inicio" (click)="closeSearch()" class="text-gray-300 hover:text-white">Inicio</a>
-    <a routerLink="/estrenos" class="hidden lg:inline text-gray-300 hover:text-white"
+
+    <!-- Buscador -->
+    <app-buscador class="hidden md:block"></app-buscador>
+
+  <!-- Menú de navegación (visible en dispositivos grandes) -->
+  <nav
+    id="mainMenu"
+    class="text-right flex gap-4 md:flex md:items-center md:justify-end z-50"
+  >
+    <a
+      routerLink="/inicio"
+      (click)="closeSearch()"
+      class="hidden lg:inline text-gray-300 hover:text-white"
+      >Inicio</a
+    >
+    <a
+      routerLink="/estrenos"
+      class="hidden lg:inline text-gray-300 hover:text-white"
       >Estrenos</a
     >
-    <a routerLink="/users" class="hidden lg:inline text-gray-300 hover:text-white"
+    <a
+      routerLink="/users"
+      class="hidden lg:inline text-gray-300 hover:text-white"
       >Conecta</a
     >
     <a href="#" class="hidden lg:inline text-gray-300 hover:text-white"
       >Contacto</a
     >
     @if(usuarioLogeado){
-      <a routerLink="/privada" class="text-gray-300 hover:text-white"
-        >Privada</a
-      >
     }
   </nav>
+
   <!-- Perfil de usuario -->
   <div class="flex items-center justify-end gap-4">
     <ng-container *ngIf="usuarioLogeado; else notLoggedIn">
-      <p class="text-white" style="margin-bottom: 0px;">{{ usuario.displayName }}</p>
+      <p class="text-white" style="margin-bottom: 0px">
+        {{ usuario.displayName }}
+      </p>
       <a routerLink="/profile/{{ usuario.displayName }}">
         <img
           [src]="usuario.photoURL"
@@ -43,10 +61,60 @@
       </a>
     </ng-container>
     <ng-template #notLoggedIn>
-      <a routerLink="/login" class="transition duration-300 ease-in-out border border-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded">Iniciar sesión</a>
-      <a routerLink="/register" class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
+      <a
+        routerLink="/login"
+        class="transition duration-300 ease-in-out border border-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
+        >Iniciar sesión</a
+      >
+      <a
+        routerLink="/register"
+        class="transition duration-300 ease-in-out bg-botones hover:bg-botones-hover text-white font-semibold py-2 px-4 rounded"
         >Regístrate</a
       >
     </ng-template>
+  </div>
+
+  <!-- Botón de menú desplegable (visible en dispositivos pequeños) -->
+  <button
+    id="menuBtn"
+    class="block md:hidden text-gray-300 hover:text-white focus:outline-none"
+    (click)="abrirNav()"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      class="h-6 w-6"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M4 6h16M4 12h16m-7 6h7"
+      ></path>
+    </svg>
+  </button>
+
+  <!-- Menú desplegable para dispositivos pequeños -->
+  <div
+    id="mobileMenu"
+    class="md:hidden fixed top-0 left-0 w-1/5 h-1/5 bg-basico py-2 px-4 rounded-lg shadow-md hidden overflow-auto"
+  >
+    <a
+      routerLink="/inicio"
+      (click)="closeSearch()"
+      class="block text-gray-300 hover:text-white"
+      >Inicio</a
+    >
+    <a routerLink="/estrenos" class="block text-gray-300 hover:text-white"
+      >Estrenos</a
+    >
+    <a routerLink="/users" class="block text-gray-300 hover:text-white"
+      >Conecta</a
+    >
+    <a href="#" class="block text-gray-300 hover:text-white">Contacto</a>
+    @if(usuarioLogeado){
+    }
   </div>
 </header>

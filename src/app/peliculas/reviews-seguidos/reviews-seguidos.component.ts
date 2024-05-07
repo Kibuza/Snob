@@ -39,36 +39,54 @@ export class ReviewsSeguidosComponent {
 
   obtenerSeguidos() {
     this.followService.getFollowsByUser(this.user.uid).subscribe((follows) => {
-      //console.log(follows);
       if (follows.length > 0) {
         const seguidos = follows[0].id_usuarios_seguidos;
-        console.log('1: seguidos');
-        console.log(seguidos);
-        //Ahora voy a llamar a las reviews escritas por los seguidos
-        seguidos.forEach((id_Seguido) => {
-          console.log('2. cada seguido:');
-          this.authService.getUser(id_Seguido).then((user) => {
-            console.log(user);
-            this.reviewService.getReviewsByUserId(id_Seguido).then((review) => {
-              review.forEach((review) => {
-                this.movieService.getMovieById(review.id_pelicula).subscribe(
-                  (movie) => {
-                    review.pelicula = movie;
-                    review.usuario = user;
-                    this.reviews.push(review);
-                    console.log(review);
-                  }
-                )
-              });
+        const promises = seguidos.map(id_Seguido => {
+          return this.authService.getUser(id_Seguido).then(user => {
+            return this.reviewService.getReviewsByUserId(id_Seguido).then(reviews => {
+              return Promise.all(reviews.map(review => {
+                return this.movieService.getMovieById(review.id_pelicula).toPromise().then(movie => {
+                  review.pelicula = movie;
+                  review.usuario = user;
+                  this.reviews.push(review);
+                });
+              }));
             });
           });
+        });
+        // Esperar a que todas las promesas se resuelvan
+        Promise.all(promises).then(() => {
+          // Una vez que todas las operaciones asincrónicas estén completas, llama a filtrarReviews()
+          this.filtrarReviews();
         });
       }
     });
   }
+  
 
   filtrarReviews() {
+    // Ordenar el array reviews por su atributo fecha
+    this.reviews.sort((a, b) => b.fecha.seconds - a.fecha.seconds || b.fecha.nanoseconds - a.fecha.nanoseconds);
+    
+    // Asignar el array ordenado a reviews_filtradas
     this.reviews_filtradas = this.reviews;
+  }
+  
+
+  fechaFormateada(fecha: any) {
+    const date = fecha.toDate(); // Convertir Timestamp a Date
+
+    // Formatear la fecha en un formato legible
+    const options = {
+      year: 'numeric',
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    const formattedDate = date.toLocaleDateString('es-ES', options);
+
+    return formattedDate;
   }
 
   mostrarMas() {
