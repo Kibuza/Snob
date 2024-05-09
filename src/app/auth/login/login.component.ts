@@ -17,6 +17,7 @@ export class LoginComponent implements OnInit {
   random: number = 0; // Inicializamos la variable random (para el fondo)
   backgroundClass: string = ''; //Inicializamos la variable del fondo como string vacío
   loginError: string = '';
+  error_msg: string = '';
   //Con FormBuilder creas un el formulario de LOGIN
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -49,22 +50,22 @@ export class LoginComponent implements OnInit {
       this.authService
         .login(this.loginForm.value as loginForm)
         .then((response) => {
-          console.log(response);
+          //console.log(response);
           this.router.navigateByUrl('/inicio');
           this.loginForm.reset();
         })
         .catch((errorData) => {
           console.error(errorData);
+          this.error_msg = 'Los datos no son correctos.';
         });
     } else {
       this.loginForm.markAllAsTouched();
-      //alert('Datos incorrectos');
     }
   }
 
   loginWithGoogle() {
     this.authService.loginWithGoogle().then((response)=>{
-      console.log(response);
+      //console.log(response);
       this.router.navigateByUrl('/inicio');
     });
   }

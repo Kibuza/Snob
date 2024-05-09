@@ -31,7 +31,7 @@ export class DetallesPeliculaComponent implements OnInit {
   loadMovie(id:string) {
     this.servicioMovies.getMovieById(id).subscribe({
       next: value => {
-        console.log('La pelicula es: ' , value)
+        //console.log('La pelicula es: ' , value)
         this.movie = value;
     },
       error: err => console.error('Observable emitted an error: ' + err),

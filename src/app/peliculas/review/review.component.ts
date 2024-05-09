@@ -70,9 +70,9 @@ export class ReviewComponent {
           this.reviews.push(review);
         }
       });
-      console.log(this.reviews);
+      //console.log(this.reviews);
       this.isLoading = false;
-      console.info('Reviews cargadas');
+      //console.info('Reviews cargadas');
     } catch (errorData) {
       console.error(errorData);
     }

@@ -56,7 +56,6 @@ export class ReviewsSeguidosComponent {
         });
         // Esperar a que todas las promesas se resuelvan
         Promise.all(promises).then(() => {
-          // Una vez que todas las operaciones asincrónicas estén completas, llama a filtrarReviews()
           this.filtrarReviews();
         });
       }

@@ -63,8 +63,7 @@ export class FollowService {
 
     // Verificar si se encontró algún usuario
     if (userDocs.empty) {
-      // Si no se encuentra ningún usuario con el id_usuario especificado, simplemente agregar el documento de seguimiento
-      //return addDoc(this._collection, follow);
+      //Si no se encuentra, crea el usuario
       this.createNewFollow(follow);
     } else {
       // Actualizar la lista de seguidos del usuario

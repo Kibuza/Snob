@@ -3,11 +3,12 @@ import { ListaPeliculasComponent } from '../../peliculas/lista-peliculas/lista-p
 import { TrendingPelisComponent } from '../../peliculas/trending-pelis/trending-pelis.component';
 import { ReviewsSeguidosComponent } from '../../peliculas/reviews-seguidos/reviews-seguidos.component';
 import { BusquedaService } from '../../services/busqueda.service';
+import {PersonajeDestacadoComponent} from '../../personaje-destacado/personaje-destacado.component';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [ListaPeliculasComponent, TrendingPelisComponent, ReviewsSeguidosComponent],
+  imports: [ListaPeliculasComponent, TrendingPelisComponent, ReviewsSeguidosComponent, PersonajeDestacadoComponent ],
   templateUrl: './inicio.component.html',
   styleUrl: './inicio.component.css'
 })
@@ -21,7 +22,7 @@ export class InicioComponent implements OnInit {
     this.busquedaService.terminoBusqueda$.subscribe(termino => {
       if (termino.trim() === '') {
         this.checker = false;
-        console.log('El término de búsqueda está vacío');
+        //console.log('El término de búsqueda está vacío');
       } else {
         this.checker = true;
       }

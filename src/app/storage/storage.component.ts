@@ -34,7 +34,7 @@ export class StorageComponent implements OnInit {
           const url = await getDownloadURL(storageRef);
           this.authService.updateAvatar(url).then((response) => {
             this.message = "Subida correctamente";
-            console.log("Subida correctamente al perfil");
+            //console.log("Subida correctamente al perfil");
           });
         });
       }
@@ -52,7 +52,7 @@ export class StorageComponent implements OnInit {
         });
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
       });
   }
 

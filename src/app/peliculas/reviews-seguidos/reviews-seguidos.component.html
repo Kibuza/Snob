@@ -4,7 +4,7 @@
     <p class="text-xl font-bold pt-4 pl-4 text-zinc-500">Tu gente opina</p>
     <div class="flex max-w-screen-xl mx-auto my-10 flex-col">
       @if(reviews_filtradas.length > 0){
-      <div id="reviews" class="grid grid-cols-1 gap-4 px-2 md:px-0">
+      <div id="reviews" class="grid grid-cols-1 gap-4 px-2 md:px-0 ml-8">
         <!-- Itera sobre el array de reseñas -->
         @for (review of reviews_filtradas.slice(0,8); track $index) {
         <div

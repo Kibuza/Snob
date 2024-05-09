@@ -58,7 +58,6 @@
         </li>
         } }
       </ul>
-      <!-- <img src="assets/images/iniciativa-vengadores.avif" class="rounded-md"> -->
     </div>
     <div
       class="w-full flex md:1/2 lg:w-1/3 min-h-full flex-col justify-center px-6 py-12 lg:px-8 bg-white bg-opacity-70 rounded-tr rounded-br col-span-5"
@@ -91,6 +90,7 @@
                 name="email"
                 type="email"
                 autocomplete="email"
+                maxlength="30"
                 class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
               />
               <div
@@ -120,6 +120,7 @@
                 name="username"
                 type="username"
                 autocomplete="username"
+                maxlength="25"
                 class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
               />
               <div
@@ -150,6 +151,7 @@
                   type="password"
                   autocomplete="current-password"
                   class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                  maxlength="25"
                 />
                 <div
                   *ngIf="
@@ -164,9 +166,8 @@
                     *ngIf="password.errors?.['invalidPassword']"
                     class="mt-1"
                   >
-                    La contraseña debe tener al menos una minúscula, una
-                    mayúscula, un número, un símbolo y tener al menos 7
-                    caracteres.
+                    La contraseña debe tener al menos 7 caracteres, incluyendo una
+                    mayúscula, un número y un símbolo.
                   </div>
                 </div>
               </div>
@@ -187,6 +188,7 @@
                 id="r_password"
                 name="r_password"
                 type="password"
+                maxlength="25"
                 class="block w-full rounded-md border-0 px-4 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
               />
               <div
@@ -196,8 +198,11 @@
                 class="mt-2 text-red-500 text-sm"
               >
                 <div *ngIf="r_password.errors?.['required']" class="mt-1">
-                  Debes poner la contraseña.
+                  Debes validar la contraseña.
                 </div>
+              </div>
+              <div class="mt-2 text-red-500 text-sm font-semibold text-center">
+                {{ error_msg }}
               </div>
             </div>
           </div>
@@ -209,6 +214,9 @@
               class="flex w-full justify-center rounded-md bg-botones px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-botones-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
               Regístrate
+            </button>
+            <button type="button" class="login-with-google-btn flex w-full justify-center text-center mt-5 rounded-md" (click)="loginWithGoogle()" >
+              Entrar con Google
             </button>
           </div>
         </form>

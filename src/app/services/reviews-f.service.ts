@@ -57,7 +57,7 @@ export class ReviewsFService {
       const snapshot = await getDoc(document);
       return snapshot.data() as ReviewForm;
     } catch (error) {
-      console.log('Error getting document:', error);
+      //console.log('Error getting document:', error);
       return undefined;
     }
   }

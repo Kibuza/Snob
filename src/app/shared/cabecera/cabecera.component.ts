@@ -25,7 +25,7 @@ export class CabeceraComponent implements OnInit {
     this.authService.user$.subscribe((user) => {
       if (user) {
         this.usuario = user;
-        console.log(this.usuario);
+        //console.log(this.usuario);
         this.usuarioLogeado = true;
       }
     })

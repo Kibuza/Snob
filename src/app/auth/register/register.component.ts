@@ -21,6 +21,7 @@ import { UserFService } from '../../services/user-f.service';
 export class RegisterComponent implements OnInit {
   random: number = 0; // Inicializamos la variable random
   backgroundClass: string = ''; //Inicializamos la variable del fondo como string vacío
+  error_msg: string = '';
 
   //Este es el formGroup del registro, lo que está conectado con el HTML y puedes ponerle validadores
   registerForm = this.formBuilder.group({
@@ -59,14 +60,26 @@ export class RegisterComponent implements OnInit {
   }
 
   registerUser() {
-    this.authService.register(this.registerForm.value).then((response) => {
-      console.log(response);
-      this.router.navigateByUrl('/inicio');
-      this.registerForm.reset();
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+    if (this.registerForm.valid) {
+      if (
+        this.registerForm.value.password !== this.registerForm.value.r_password
+      ) {
+        this.error_msg = 'Las contraseñas no coinciden.';
+        return;
+      }
+      this.authService
+        .register(this.registerForm.value)
+        .then((response) => {
+          console.log(response);
+          this.router.navigateByUrl('/inicio');
+          this.registerForm.reset();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      this.registerForm.markAllAsTouched();
+    }
   }
 
   passwordValidator(): ValidatorFn {
@@ -84,5 +97,12 @@ export class RegisterComponent implements OnInit {
 
       return null;
     };
+  }
+
+  loginWithGoogle() {
+    this.authService.loginWithGoogle().then((response)=>{
+      //console.log(response);
+      this.router.navigateByUrl('/inicio');
+    });
   }
 }

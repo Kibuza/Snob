@@ -2,7 +2,12 @@
     <app-lista-peliculas></app-lista-peliculas>
 }@else{
     <app-trending-pelis></app-trending-pelis>
-    <app-reviews-seguidos></app-reviews-seguidos>
+    <div class="grid grid-cols-5">
+        <div class="col-span-5 md:col-span-3"><app-reviews-seguidos></app-reviews-seguidos></div>
+        <div class="col-span-5 md:col-span-2"><app-personaje-destacado></app-personaje-destacado></div>
+    </div>
+    
+    
 }
 
 
