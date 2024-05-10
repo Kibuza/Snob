@@ -8,8 +8,8 @@ import { DetallesPeliculaComponent } from './peliculas/detalles-pelicula/detalle
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EstrenosComponent } from './peliculas/estrenos/estrenos.component';
 import { SnobsComponent } from './pages/snobs/snobs.component';
-import {ContactoComponent} from './contacto/contacto.component';
-import {canActivate, redirectUnauthorizedTo} from '@angular/fire/auth-guard';
+import { ContactoComponent } from './contacto/contacto.component';
+import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/inicio', pathMatch: 'full' },
@@ -17,8 +17,24 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'contacto', component: ContactoComponent },
-  { path: 'profile/:id', component: ProfileComponent, ...canActivate(()=>redirectUnauthorizedTo(['/login'])) },
-  { path: 'detalles/:id', component: DetallesPeliculaComponent, ...canActivate(()=>redirectUnauthorizedTo(['/login'])) },
-  { path: 'estrenos', component: EstrenosComponent, ...canActivate(()=>redirectUnauthorizedTo(['/login'])) },
-  { path: 'users', component: SnobsComponent, ...canActivate(()=>redirectUnauthorizedTo(['/login'])) },
+  {
+    path: 'profile/:id',
+    component: ProfileComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login'])),
+  },
+  {
+    path: 'detalles/:id',
+    component: DetallesPeliculaComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login'])),
+  },
+  {
+    path: 'estrenos',
+    component: EstrenosComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login'])),
+  },
+  {
+    path: 'users',
+    component: SnobsComponent,
+    ...canActivate(() => redirectUnauthorizedTo(['/login'])),
+  },
 ];

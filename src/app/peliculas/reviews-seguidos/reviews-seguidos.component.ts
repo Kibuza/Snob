@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, forkJoin, from, map, mergeMap, switchMap } from 'rxjs';
+import { Observable, forkJoin, from, map, mergeMap, switchMap, firstValueFrom } from 'rxjs';
 import { NgIf } from '@angular/common';
 import { APITMDBService } from '../../services/api-tmdb.service';
 import { RouterLink } from '@angular/router';
@@ -45,7 +45,7 @@ export class ReviewsSeguidosComponent {
           return this.authService.getUser(id_Seguido).then(user => {
             return this.reviewService.getReviewsByUserId(id_Seguido).then(reviews => {
               return Promise.all(reviews.map(review => {
-                return this.movieService.getMovieById(review.id_pelicula).toPromise().then(movie => {
+                return firstValueFrom(this.movieService.getMovieById(review.id_pelicula)).then(movie => {
                   review.pelicula = movie;
                   review.usuario = user;
                   this.reviews.push(review);

@@ -37,6 +37,7 @@ import { Component } from '@angular/core';
           <a
             href="https://www.linkedin.com/in/carlos-dalmau-chorro-a00492104/"
             class="text-gray-300"
+            onclick="window.open(this.href,'_blank');return false;"
           >
             <svg
               width="800px"
@@ -54,7 +55,7 @@ import { Component } from '@angular/core';
             </svg>
           </a>
           <!-- Logo de Github -->
-          <a href="https://github.com/Kibuza" class="ml-4 text-gray-300">
+          <a href="https://github.com/Kibuza" class="ml-4 text-gray-300" onclick="window.open(this.href,'_blank');return false;">
             <svg
               width="800px"
               height="800px"

@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import {
   Auth,
-  getAuth,
   User,
   user,
   createUserWithEmailAndPassword,
@@ -14,17 +13,12 @@ import {
 import { Observable, Subscription, take } from 'rxjs';
 import {
   Firestore,
-  addDoc,
   collection,
   collectionData,
-  deleteDoc,
   doc,
   getDoc,
-  getDocs,
-  query,
   setDoc,
   updateDoc,
-  where,
 } from '@angular/fire/firestore';
 import { registerRequest } from '../auth/register/registerRequest';
 
@@ -85,11 +79,7 @@ export class UserFService implements OnDestroy {
 
   async login({ email, password }: any) {
     try {
-      const { user } = await signInWithEmailAndPassword(
-        this.auth,
-        email,
-        password
-      );
+      const { user } = await signInWithEmailAndPassword(this.auth, email,password);
       return user;
     } catch (error) {
       throw error;

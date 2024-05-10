@@ -23,6 +23,7 @@ export class ReviewComponent {
   user: any;
   user_bd: any;
   isAdmin: boolean = false;
+  reviews_filtradas: any = [];
 
   constructor(
     private authService: UserFService,
@@ -70,6 +71,7 @@ export class ReviewComponent {
           this.reviews.push(review);
         }
       });
+      this.filtrarReviews();
       //console.log(this.reviews);
       this.isLoading = false;
       //console.info('Reviews cargadas');
@@ -126,5 +128,13 @@ export class ReviewComponent {
     const formattedDate = date.toLocaleDateString('es-ES', options);
 
     return formattedDate;
+  }
+
+  filtrarReviews() {
+    // Ordenar el array reviews por su atributo fecha
+    this.reviews.sort((a, b) => b.fecha.seconds - a.fecha.seconds || b.fecha.nanoseconds - a.fecha.nanoseconds);
+    
+    // Asignar el array ordenado a reviews_filtradas
+    this.reviews_filtradas = this.reviews;
   }
 }
